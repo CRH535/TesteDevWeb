@@ -8,10 +8,10 @@
 }
 
 /* ==========================================
-   CONTAINER DA PÁGINA: fundo e centralização
+   CONTAINER DA PÁGINA DE LOGIN: fundo e centralização 
    ========================================== */
 .container-da-pagina {
-  /* Tamanho mínimo da página (ocupa toda a tela) */
+  /* Tamanho mínimo da página de login (ocupa toda a tela) */
   min-height: 100vh;
   /* Centraliza o card na tela */
   display: flex;

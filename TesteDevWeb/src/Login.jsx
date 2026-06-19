@@ -1,7 +1,7 @@
 // Importamos o React e o hook useState (para gerenciar estados)
 import { useState } from 'react';
 // Importamos o arquivo de estilos
-import './App.css';
+import './Login.css';
 
 // Funções de validação
 function validarEmail(email) {
@@ -16,8 +16,8 @@ function validarSenha(senha) {
   return temLetra && temNumero && temTamanhoMinimo;
 }
 
-// Este é o componente principal
-function App() {
+// Este é o componente Login
+function Login() {
   // ==========================================
   // ESTADOS GERAIS
   // ==========================================
@@ -400,4 +400,4 @@ function App() {
 }
 
 // Exportamos o componente
-export default App;
+export default Login;
