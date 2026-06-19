@@ -3,6 +3,19 @@ import { useState } from 'react';
 // Importamos o arquivo de estilos
 import './App.css';
 
+// Funções de validação
+function validarEmail(email) {
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regexEmail.test(email);
+}
+
+function validarSenha(senha) {
+  const temLetra = /[a-zA-Z]/.test(senha);
+  const temNumero = /[0-9]/.test(senha);
+  const temTamanhoMinimo = senha.length >= 8;
+  return temLetra && temNumero && temTamanhoMinimo;
+}
+
 // Este é o componente principal
 function App() {
   // ==========================================
@@ -47,8 +60,19 @@ function App() {
       return;
     }
 
+    // Valida email apenas se o campo contiver @ (indicando que é um email
+    if (emailLogin.includes('@') && !validarEmail(emailLogin)) {
+      setMensagemErroLogin('Por favor, digite um e-mail válido!');
+      return;
+    }
+
     if (senhaLogin.trim() === '') {
       setMensagemErroLogin('Por favor, digite sua senha!');
+      return;
+    }
+
+    if (!validarSenha(senhaLogin)) {
+      setMensagemErroLogin('A senha deve ter pelo menos 8 caracteres, contendo pelo menos uma letra e um número!');
       return;
     }
   }
@@ -75,8 +99,18 @@ function App() {
       return;
     }
 
+    if (!validarEmail(emailCriar)) {
+      setMensagemErroCriar('Por favor, digite um e-mail válido!');
+      return;
+    }
+
     if (senhaCriar.trim() === '') {
       setMensagemErroCriar('Por favor, digite sua senha!');
+      return;
+    }
+
+    if (!validarSenha(senhaCriar)) {
+      setMensagemErroCriar('A senha deve ter pelo menos 8 caracteres, contendo pelo menos uma letra e um número!');
       return;
     }
 
