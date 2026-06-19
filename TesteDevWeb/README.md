@@ -1,16 +1,41 @@
-# React + Vite
+# Sistema de Autenticação com React e IA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrição Geral
 
-Currently, two official plugins are available:
+Este projeto foi desenvolvido como parte de um curso escolar, com o objetivo de explorar a linguagem React de uma maneira inovadora e pouco convencional. O trabalho contou com a integração quase completa de inteligência artificial (IA) em todo o seu funcionamento, desde a concepção das funcionalidades até a implementação do código.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O sistema consiste em uma interface de autenticação moderna, com funcionalidades de login e criação de conta, desenvolvida com foco em experiência do usuário e boas práticas de desenvolvimento.
 
-## React Compiler
+## Tecnologias Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19**: Framework JavaScript principal para a construção da interface de usuário.
+- **Vite**: Ferramenta de build e desenvolvimento rápido para projetos React.
+- **CSS3**: Para estilização da interface com design moderno e responsivo.
+- **Inteligência Artificial**: Integrada de forma abrangente no processo de desenvolvimento, auxiliando em:
+  - Concepção da arquitetura do projeto
+  - Implementação das funcionalidades
+  - Otimização do código
+  - Resolução de problemas
 
-## Expanding the ESLint configuration
+## Equipe de Desenvolvimento
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+O projeto foi desenvolvido por uma equipe de 3 alunos, colaborando para testar e explorar as potencialidades do React em conjunto com ferramentas de IA.
+
+## Status do Projeto
+
+🚧 **Em Desenvolvimento Ativo**
+
+O projeto ainda se encontra em fase de desenvolvimento, com novas funcionalidades e melhorias sendo implementadas regularmente.
+
+## Como Executar o Projeto
+
+1. Clone o repositório
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+4. Acesse o projeto no navegador através do endereço exibido no terminal (geralmente `http://localhost:5173/`)
