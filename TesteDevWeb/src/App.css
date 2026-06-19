@@ -122,6 +122,14 @@
   pointer-events: none;
 }
 
+.icone-do-input {
+  position: absolute;
+  left: 16px;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
 .icone-botao-senha {
   width: 24px;
   height: 24px;
