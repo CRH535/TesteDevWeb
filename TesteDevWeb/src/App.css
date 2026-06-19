@@ -311,6 +311,7 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .link-do-cadastro:hover {

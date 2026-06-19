@@ -3,89 +3,128 @@ import { useState } from 'react';
 // Importamos o arquivo de estilos
 import './App.css';
 
-// Este é o componente principal da nossa página de login
+// Este é o componente principal
 function App() {
   // ==========================================
-  // ESTADOS: são variáveis que guardam informações que mudam
+  // ESTADOS GERAIS
   // ==========================================
   
-  // Estado para guardar o e-mail/usuário digitado
-  const [email, setEmail] = useState('');
+  // Estado para controlar qual página exibir ('login' ou 'criar-conta')
+  const [paginaAtual, setPaginaAtual] = useState('login');
+
+  // ==========================================
+  // ESTADOS DA PÁGINA DE LOGIN
+  // ==========================================
   
-  // Estado para guardar a senha digitada
-  const [senha, setSenha] = useState('');
-  
-  // Estado para controlar se a senha está visível ou não
-  const [senhaVisivel, setSenhaVisivel] = useState(false);
-  
-  // Estado para controlar se a checkbox "lembrar credenciais" está marcada
+  const [emailLogin, setEmailLogin] = useState('');
+  const [senhaLogin, setSenhaLogin] = useState('');
+  const [senhaVisivelLogin, setSenhaVisivelLogin] = useState(false);
   const [lembrarCredenciais, setLembrarCredenciais] = useState(false);
+  const [mensagemErroLogin, setMensagemErroLogin] = useState('');
+
+  // ==========================================
+  // ESTADOS DA PÁGINA DE CRIAR CONTA
+  // ==========================================
   
-  // Estado para guardar mensagens de erro
-  const [mensagemErro, setMensagemErro] = useState('');
+  const [nome, setNome] = useState('');
+  const [emailCriar, setEmailCriar] = useState('');
+  const [senhaCriar, setSenhaCriar] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [senhaVisivelCriar, setSenhaVisivelCriar] = useState(false);
+  const [senhaVisivelConfirmar, setSenhaVisivelConfirmar] = useState(false);
+  const [mensagemErroCriar, setMensagemErroCriar] = useState('');
 
   // ==========================================
-  // FUNÇÕES: são blocos de código que fazem algo específico
+  // FUNÇÕES DA PÁGINA DE LOGIN
   // ==========================================
 
-  // Esta função é chamada quando o formulário é enviado
-  function quandoEnviarFormulario(event) {
-    // Previne que a página recarregue (comportamento padrão do formulário)
+  function quandoEnviarLogin(event) {
     event.preventDefault();
-    
-    // Limpa qualquer mensagem de erro anterior
-    setMensagemErro('');
+    setMensagemErroLogin('');
 
-    // Verifica se o e-mail está vazio
-    if (email.trim() === '') {
-      setMensagemErro('Por favor, digite seu e-mail ou usuário!');
-      return; // Para a função aqui se houver erro
+    if (emailLogin.trim() === '') {
+      setMensagemErroLogin('Por favor, digite seu e-mail ou usuário!');
+      return;
     }
 
-    // Verifica se a senha está vazia
-    if (senha.trim() === '') {
-      setMensagemErro('Por favor, digite sua senha!');
-      return; // Para a função aqui se houver erro
+    if (senhaLogin.trim() === '') {
+      setMensagemErroLogin('Por favor, digite sua senha!');
+      return;
     }
-
-    // Se tudo estiver ok, mostra as informações no console (ferramenta do navegador)
-    console.log('=== Dados do Login ===');
-    console.log('E-mail/Usuário:', email);
-    console.log('Senha:', senha);
-    console.log('Lembrar credenciais:', lembrarCredenciais ? 'Sim' : 'Não');
-
-    // Mostra um alerta para o usuário
-    alert('Login enviado! Verifique o console do navegador (F12) para ver os dados.');
   }
 
-  // Esta função alterna a visibilidade da senha
-  function alternarVisibilidadeSenha() {
-    setSenhaVisivel(!senhaVisivel); // Inverte o valor (se era true, vira false e vice-versa)
-  }
-
-  // Esta função atualiza o estado da checkbox "lembrar credenciais"
-  function quandoMudarCheckbox(event) {
-    setLembrarCredenciais(event.target.checked);
+  function alternarVisibilidadeSenhaLogin() {
+    setSenhaVisivelLogin(!senhaVisivelLogin);
   }
 
   // ==========================================
-  // RENDERIZAÇÃO: o que aparece na tela
+  // FUNÇÕES DA PÁGINA DE CRIAR CONTA
   // ==========================================
-  return (
-    <div className="container-da-pagina">
-      <div className="card-de-login">
-        
-        {/* Logo da aplicação */}
-        <div className="container-do-logo">
-          <img src="./LogoTeste.png" alt="Logo do sistema" className="logo" />
-        </div>
 
+  function quandoEnviarCriarConta(event) {
+    event.preventDefault();
+    setMensagemErroCriar('');
+
+    if (nome.trim() === '') {
+      setMensagemErroCriar('Por favor, digite seu nome completo!');
+      return;
+    }
+
+    if (emailCriar.trim() === '') {
+      setMensagemErroCriar('Por favor, digite seu e-mail!');
+      return;
+    }
+
+    if (senhaCriar.trim() === '') {
+      setMensagemErroCriar('Por favor, digite sua senha!');
+      return;
+    }
+
+    if (confirmarSenha.trim() === '') {
+      setMensagemErroCriar('Por favor, confirme sua senha!');
+      return;
+    }
+
+    if (senhaCriar !== confirmarSenha) {
+      setMensagemErroCriar('As senhas digitadas não coincidem!');
+      return;
+    }
+  }
+
+  function alternarVisibilidadeSenhaCriar() {
+    setSenhaVisivelCriar(!senhaVisivelCriar);
+  }
+
+  function alternarVisibilidadeConfirmarSenha() {
+    setSenhaVisivelConfirmar(!senhaVisivelConfirmar);
+  }
+
+  // ==========================================
+  // FUNÇÃO PARA NAVEGAR ENTRE PÁGINAS
+  // ==========================================
+
+  function irParaPagina(pagina) {
+    setPaginaAtual(pagina);
+    // Limpa os estados das páginas ao navegar
+    if (pagina === 'login') {
+      setMensagemErroCriar('');
+    } else {
+      setMensagemErroLogin('');
+    }
+  }
+
+  // ==========================================
+  // RENDERIZAÇÃO DA PÁGINA DE LOGIN
+  // ==========================================
+  function renderizarPaginaLogin() {
+    return (
+      <>
         {/* Títulos */}
         <h1 className="titulo-principal">Entrar</h1>
         <p className="subtitulo">Acesse sua conta para continuar</p>
 
         {/* Formulário de login */}
-        <form className="formulario" onSubmit={quandoEnviarFormulario}>
+        <form className="formulario" onSubmit={quandoEnviarLogin}>
           
           {/* Campo de e-mail/usuário */}
           <div className="grupo-do-campo">
@@ -93,16 +132,14 @@ function App() {
               E-mail ou usuário
             </label>
             <div className="wrapper-do-input">
-              {/* Ícone do e-mail usando a imagem PNG */}
               <img src="/IconeEmail.png" alt="E-mail" className="icone-do-input-email" />
-              
               <input
                 type="text"
                 id="campo-email"
                 className="campo-de-entrada"
                 placeholder="Digite seu e-mail ou usuário"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                value={emailLogin}
+                onChange={(event) => setEmailLogin(event.target.value)}
               />
             </div>
           </div>
@@ -113,49 +150,44 @@ function App() {
               Senha
             </label>
             <div className="wrapper-do-input">
-              {/* Ícone da senha usando a imagem PNG */}
               <img src="/IconeSenha.png" alt="Senha" className="icone-do-input" />
-              
               <input
-                type={senhaVisivel ? "text" : "password"}
+                type={senhaVisivelLogin ? "text" : "password"}
                 id="campo-senha"
                 className="campo-de-entrada"
                 placeholder="Digite sua senha"
-                value={senha}
-                onChange={(event) => setSenha(event.target.value)}
+                value={senhaLogin}
+                onChange={(event) => setSenhaLogin(event.target.value)}
               />
-              
-              {/* Botão para mostrar/ocultar senha usando a imagem fornecida */}
               <button
                 type="button"
                 className="botao-de-visibilidade"
-                onClick={alternarVisibilidadeSenha}
-                aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}
+                onClick={alternarVisibilidadeSenhaLogin}
+                aria-label={senhaVisivelLogin ? "Ocultar senha" : "Mostrar senha"}
               >
                 <img 
                   src="/IconeOcultar.png" 
-                  alt={senhaVisivel ? "Ocultar senha" : "Mostrar senha"} 
+                  alt={senhaVisivelLogin ? "Ocultar senha" : "Mostrar senha"} 
                   className="icone-botao-senha"
                 />
               </button>
             </div>
           </div>
 
-          {/* Mensagem de erro, se houver */}
-          {mensagemErro && <div className="mensagem-de-erro">{mensagemErro}</div>}
+          {/* Mensagem de erro */}
+          {mensagemErroLogin && <div className="mensagem-de-erro">{mensagemErroLogin}</div>}
 
-          {/* Opções (lembrar credenciais + esqueci a senha) */}
+          {/* Opções */}
           <div className="linha-das-opcoes">
             <label className="rotulo-da-checkbox">
               <input
                 type="checkbox"
                 className="checkbox"
                 checked={lembrarCredenciais}
-                onChange={quandoMudarCheckbox}
+                onChange={(event) => setLembrarCredenciais(event.target.checked)}
               />
               <span className="texto-da-checkbox">Lembrar credenciais</span>
             </label>
-
             <a href="#" className="link-esqueci-senha">
               Esqueci minha senha
             </a>
@@ -166,7 +198,7 @@ function App() {
             Entrar
           </button>
 
-          {/* Divisor "ou" */}
+          {/* Divisor */}
           <div className="divisor">
             <span className="texto-do-divisor">ou</span>
           </div>
@@ -174,13 +206,164 @@ function App() {
           {/* Link para criar conta */}
           <p className="texto-do-cadastro">
             Não possui uma conta?
-            <a href="#" className="link-do-cadastro"> Criar conta</a>
+            <span className="link-do-cadastro" onClick={() => irParaPagina('criar-conta')}> Criar conta</span>
           </p>
         </form>
+      </>
+    );
+  }
+
+  // ==========================================
+  // RENDERIZAÇÃO DA PÁGINA DE CRIAR CONTA
+  // ==========================================
+  function renderizarPaginaCriarConta() {
+    return (
+      <>
+        {/* Títulos */}
+        <h1 className="titulo-principal">Criar conta</h1>
+        <p className="subtitulo">Cadastre-se para acessar o sistema</p>
+
+        {/* Formulário de criar conta */}
+        <form className="formulario" onSubmit={quandoEnviarCriarConta}>
+          
+          {/* Campo de nome completo */}
+          <div className="grupo-do-campo">
+            <label className="rotulo-do-campo" htmlFor="campo-nome">
+              Nome completo
+            </label>
+            <div className="wrapper-do-input">
+              <img src="/UsuarioIcone.png" alt="Ícone de usuário" className="icone-do-input" />
+              <input
+                type="text"
+                id="campo-nome"
+                className="campo-de-entrada"
+                placeholder="Digite seu nome completo"
+                value={nome}
+                onChange={(event) => setNome(event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Campo de e-mail */}
+          <div className="grupo-do-campo">
+            <label className="rotulo-do-campo" htmlFor="campo-email-criar">
+              E-mail
+            </label>
+            <div className="wrapper-do-input">
+              <img src="/IconeEmail.png" alt="E-mail" className="icone-do-input-email" />
+              <input
+                type="email"
+                id="campo-email-criar"
+                className="campo-de-entrada"
+                placeholder="Digite seu e-mail"
+                value={emailCriar}
+                onChange={(event) => setEmailCriar(event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Campo de senha */}
+          <div className="grupo-do-campo">
+            <label className="rotulo-do-campo" htmlFor="campo-senha-criar">
+              Senha
+            </label>
+            <div className="wrapper-do-input">
+              <img src="/IconeSenha.png" alt="Senha" className="icone-do-input" />
+              <input
+                type={senhaVisivelCriar ? "text" : "password"}
+                id="campo-senha-criar"
+                className="campo-de-entrada"
+                placeholder="Digite sua senha"
+                value={senhaCriar}
+                onChange={(event) => setSenhaCriar(event.target.value)}
+              />
+              <button
+                type="button"
+                className="botao-de-visibilidade"
+                onClick={alternarVisibilidadeSenhaCriar}
+                aria-label={senhaVisivelCriar ? "Ocultar senha" : "Mostrar senha"}
+              >
+                <img 
+                  src="/IconeOcultar.png" 
+                  alt={senhaVisivelCriar ? "Ocultar senha" : "Mostrar senha"} 
+                  className="icone-botao-senha"
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Campo de confirmar senha */}
+          <div className="grupo-do-campo">
+            <label className="rotulo-do-campo" htmlFor="campo-confirmar-senha">
+              Confirmar senha
+            </label>
+            <div className="wrapper-do-input">
+              <img src="/IconeSenha.png" alt="Confirmar senha" className="icone-do-input" />
+              <input
+                type={senhaVisivelConfirmar ? "text" : "password"}
+                id="campo-confirmar-senha"
+                className="campo-de-entrada"
+                placeholder="Confirme sua senha"
+                value={confirmarSenha}
+                onChange={(event) => setConfirmarSenha(event.target.value)}
+              />
+              <button
+                type="button"
+                className="botao-de-visibilidade"
+                onClick={alternarVisibilidadeConfirmarSenha}
+                aria-label={senhaVisivelConfirmar ? "Ocultar senha" : "Mostrar senha"}
+              >
+                <img 
+                  src="/IconeOcultar.png" 
+                  alt={senhaVisivelConfirmar ? "Ocultar senha" : "Mostrar senha"} 
+                  className="icone-botao-senha"
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Mensagem de erro */}
+          {mensagemErroCriar && <div className="mensagem-de-erro">{mensagemErroCriar}</div>}
+
+          {/* Botão de criar conta */}
+          <button type="submit" className="botao-de-entrar">
+            Criar conta
+          </button>
+
+          {/* Divisor */}
+          <div className="divisor">
+            <span className="texto-do-divisor">ou</span>
+          </div>
+
+          {/* Link para voltar ao login */}
+          <p className="texto-do-cadastro">
+            Já possui uma conta?
+            <span className="link-do-cadastro" onClick={() => irParaPagina('login')}> Entrar</span>
+          </p>
+        </form>
+      </>
+    );
+  }
+
+  // ==========================================
+  // RENDERIZAÇÃO PRINCIPAL
+  // ==========================================
+  return (
+    <div className="container-da-pagina">
+      <div className="card-de-login">
+        
+        {/* Logo da aplicação */}
+        <div className="container-do-logo">
+          <img src="/LogoTeste.png" alt="Logo do sistema" className="logo" />
+        </div>
+
+        {/* Renderiza a página atual */}
+        {paginaAtual === 'login' ? renderizarPaginaLogin() : renderizarPaginaCriarConta()}
+
       </div>
     </div>
   );
 }
 
-// Exportamos o componente para que o React possa usá-lo
+// Exportamos o componente
 export default App;
