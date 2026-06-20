@@ -1,339 +1,421 @@
-/* ==========================================
-   RESET BÁSICO: remove estilos padrão do navegador
-   ========================================== */
+/* CSS do Login */
+/* este arquivo tem todos os estilos da página de login */
+
+/* primeiro eu reseto as coisas do navegador */
+/* isso é pra começar do zero com o css */
 * {
   margin: 0;
+  /* margem zero */
   padding: 0;
+  /* padding zero também */
   box-sizing: border-box;
+  /* box sizing pra facilitar */
 }
 
-/* ==========================================
-   CONTAINER DA PÁGINA DE LOGIN: fundo e centralização 
-   ========================================== */
+/* agora o container principal da página */
+/* é a div que segura tudo */
 .container-da-pagina {
-  /* Tamanho mínimo da página de login (ocupa toda a tela) */
+  /* altura mínima é 100% da tela */
   min-height: 100vh;
-  /* Centraliza o card na tela */
+  /* display flex pra centralizar */
   display: flex;
+  /* centraliza na horizontal */
   justify-content: center;
+  /* centraliza na vertical */
   align-items: center;
-  /* Espaçamento interno para telas menores */
+  /* espaçamento interno pros lados */
   padding: 20px;
-  /* Fundo em gradiente escuro */
+  /* cor de fundo escura com gradiente */
   background: linear-gradient(135deg, #0d0d14 0%, #15151f 50%, #0d0d14 100%);
-  /* Fonte padrão (compatível com todos os sistemas) */
+  /* fonte padrão do sistema */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-/* ==========================================
-   CARD DE LOGIN: o container principal do formulário
-   ========================================== */
+/* o card de login que segura o formulário */
+/* é o retângulo bonitinho no meio da tela */
 .card-de-login {
-  /* Largura máxima do card */
+  /* largura total mas no máximo 480px */
   width: 100%;
   max-width: 480px;
-  /* Espaçamento interno */
+  /* espaçamento interno */
   padding: 48px;
-  /* Fundo do card (gradiente) */
+  /* fundo com gradiente bonitinho */
   background: linear-gradient(145deg, #1f1f2b 0%, #161620 100%);
-  /* Cantos arredondados */
+  /* cantos arredondados */
   border-radius: 24px;
-  /* Borda fina e semi-transparente */
+  /* borda fininha */
   border: 1px solid rgba(255, 255, 255, 0.08);
-  /* Sombra para dar profundidade */
+  /* sombra pra dar profundidade */
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(99, 102, 241, 0.05);
 }
 
-/* ==========================================
-   LOGO: ícone da aplicação
-   ========================================== */
+/* o container do logo */
+/* só centraliza o logo */
 .container-do-logo {
-  /* Centraliza o logo */
   display: flex;
   justify-content: center;
-  /* Espaçamento abaixo do logo */
   margin-bottom: 32px;
 }
 
+/* a imagem do logo em si */
+/* defini um tamanho máximo */
 .logo {
   width: 100%;
   max-width: 100px;
-  /* Sombra no logo */
+  /* sombra no logo pra destacar */
   filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
 }
 
-/* ==========================================
-   TÍTULOS
-   ========================================== */
+/* o título principal tipo "Entrar" ou "Criar conta" */
 .titulo-principal {
+  /* cor do texto bem clarinho */
   color: #f3f4f6;
+  /* tamanho da fonte grande */
   font-size: 32px;
+  /* negrito */
   font-weight: 700;
+  /* centralizado */
   text-align: center;
+  /* margem embaixo pra separar do subtítulo */
   margin-bottom: 8px;
+  /* espaçamento entre letras */
   letter-spacing: -0.5px;
 }
 
+/* o subtítulo embaixo do título */
 .subtitulo {
+  /* cor mais apagada que o título */
   color: #9ca3af;
+  /* tamanho menor */
   font-size: 16px;
+  /* centralizado */
   text-align: center;
+  /* margem embaixo */
   margin-bottom: 32px;
+  /* peso da fonte normal */
   font-weight: 400;
 }
 
-/* ==========================================
-   FORMULÁRIO
-   ========================================== */
+/* o formulário em si */
+/* usa flex pra organizar os campos */
 .formulario {
   display: flex;
   flex-direction: column;
+  /* espaço entre cada campo */
   gap: 20px;
 }
 
-/* ==========================================
-   CAMPOS DE ENTRADA
-   ========================================== */
+/* cada grupo de campo (label + input) */
+/* é tipo uma linha do formulário */
 .grupo-do-campo {
   display: flex;
   flex-direction: column;
+  /* espaço entre o label e o input */
   gap: 8px;
 }
 
+/* o label de cada campo */
 .rotulo-do-campo {
+  /* cor do texto do label */
   color: #e5e7eb;
-  font-size: 15px;
+  /* tamanho da fonte */
+  font-size: 14px;
+  /* peso médio */
   font-weight: 500;
-  text-align: left;
 }
 
+/* o wrapper que segura o input e os ícones */
+/* é uma div que envolte o input */
 .wrapper-do-input {
+  /* position relative pra poder posicionar os ícones */
   position: relative;
+  /* flex pro ícone ficar do lado do input */
   display: flex;
+  /* alinha verticalmente */
   align-items: center;
 }
 
-.icone-do-input-email {
-  position: absolute;
-  left: 16px;
-  width: 28px;
-  height: 20px;
-  color: #6b7280;
-  pointer-events: none;
-}
-
-.icone-do-input {
-  position: absolute;
-  left: 16px;
-  width: 24px;
-  height: 24px;
-  pointer-events: none;
-}
-
-.icone-botao-senha {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
+/* o input em si */
+/* o campo de texto bonitinho */
 .campo-de-entrada {
+  /* largura total */
   width: 100%;
-  padding: 14px 16px 14px 48px;
-  background: #111118;
+  /* altura do campo */
+  padding: 14px 48px;
+  /* fundo escuro */
+  background: rgba(255, 255, 255, 0.05);
+  /* borda fininha */
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  /* cantos arredondados */
+  border-radius: 12px;
+  /* cor do texto digitado */
   color: #f3f4f6;
-  font-size: 15px;
-  font-family: inherit;
-  transition: all 0.2s ease;
+  /* tamanho da fonte */
+  font-size: 16px;
+  /* sem outline quando clica */
+  outline: none;
+  /* transição suave */
+  transition: all 0.3s ease;
 }
 
-/* Quando o usuário clica no campo */
+/* quando passa o mouse ou foca no input */
 .campo-de-entrada:focus {
-  outline: none;
-  border-color: #6366f1;
+  /* borda mais visível */
+  border-color: rgba(99, 102, 241, 0.6);
+  /* sombra com cor roxa */
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
-/* Texto de exemplo no campo (placeholder) */
-.campo-de-entrada::placeholder {
-  color: #6b7280;
-}
-
-/* ==========================================
-   BOTÃO DE VISIBILIDADE DA SENHA
-   ========================================== */
-.botao-de-visibilidade {
+/* o ícone do input tipo o email e senha */
+/* fica do lado esquerdo */
+.icone-do-input {
+  /* posição absoluta */
   position: absolute;
-  right: 16px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-}
-
-.botao-de-visibilidade:hover {
-  color: #9ca3af;
-}
-
-.botao-de-visibilidade svg {
+  /* afastado da esquerda */
+  left: 16px;
+  /* tamanho do ícone */
   width: 20px;
   height: 20px;
+  /* cor do ícone */
+  filter: invert(0.7);
 }
 
-/* ==========================================
-   MENSAGEM DE ERRO
-   ========================================== */
+/* ícone do email que é ligeiramente diferente */
+.icone-do-input-email {
+  /* mesma coisa que o anterior */
+  position: absolute;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  filter: invert(0.7);
+}
+
+/* o botão de mostrar/esconder senha */
+/* fica do lado direito do input */
+.botao-de-visibilidade {
+  /* posição absoluta */
+  position: absolute;
+  /* afastado da direita */
+  right: 16px;
+  /* fundo transparente */
+  background: transparent;
+  /* sem borda */
+  border: none;
+  /* cursor de mão */
+  cursor: pointer;
+  /* padding zero */
+  padding: 0;
+  /* transição suave */
+  transition: opacity 0.3s ease;
+}
+
+/* quando passa o mouse no botão */
+.botao-de-visibilidade:hover {
+  /* fica um pouquinho mais transparente */
+  opacity: 0.7;
+}
+
+/* o ícone do botão de senha */
+.icone-botao-senha {
+  /* tamanho do ícone */
+  width: 20px;
+  height: 20px;
+  /* cor do ícone */
+  filter: invert(0.7);
+}
+
+/* a mensagem de erro */
+/* aparece quando tem algo errado */
 .mensagem-de-erro {
+  /* cor vermelha */
   color: #ef4444;
+  /* tamanho da fonte */
   font-size: 14px;
+  /* alinhado à esquerda */
   text-align: left;
+  /* espaço em cima e embaixo */
   padding: 8px 0;
+  /* peso médio */
   font-weight: 500;
 }
 
-/* ==========================================
-   LINHA DAS OPÇÕES (lembrar credenciais + esqueci a senha)
-   ========================================== */
+/* mensagem de sucesso */
+/* aparece quando dá tudo certo */
+.mensagem-de-sucesso {
+  /* cor verde */
+  color: #22c55e;
+  /* tamanho da fonte */
+  font-size: 14px;
+  /* alinhado à esquerda */
+  text-align: left;
+  /* espaço em cima e embaixo */
+  padding: 8px 0;
+  /* peso médio */
+  font-weight: 500;
+}
+
+/* a linha com as opções tipo lembrar senha */
 .linha-das-opcoes {
+  /* flex pra ficar tudo na mesma linha */
   display: flex;
+  /* espaço entre os elementos */
   justify-content: space-between;
+  /* alinhado no centro vertical */
   align-items: center;
+  /* margem em cima */
   margin-top: 4px;
 }
 
+/* o label do checkbox */
 .rotulo-da-checkbox {
+  /* flex pro checkbox e texto ficarem juntos */
   display: flex;
+  /* alinhado no centro */
   align-items: center;
+  /* espaço entre checkbox e texto */
   gap: 8px;
+  /* cursor de mão */
   cursor: pointer;
 }
 
+/* o checkbox em si */
 .checkbox {
+  /* tamanho do checkbox */
   width: 18px;
   height: 18px;
-  accent-color: #6366f1;
+  /* cursor de mão */
   cursor: pointer;
 }
 
+/* o texto do checkbox */
 .texto-da-checkbox {
+  /* cor do texto */
   color: #9ca3af;
+  /* tamanho da fonte */
   font-size: 14px;
-  user-select: none;
 }
 
+/* o link de esqueci minha senha */
 .link-esqueci-senha {
-  color: #6366f1;
-  font-size: 14px;
+  /* cor do link */
+  color: #6b7280;
+  /* sem sublinhado */
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  /* tamanho da fonte */
+  font-size: 14px;
+  /* transção suave */
+  transition: color 0.3s ease;
 }
 
+/* quando passa o mouse no link */
 .link-esqueci-senha:hover {
-  color: #818cf8;
-  text-decoration: underline;
+  /* cor mais clara */
+  color: #9ca3af;
 }
 
-/* ==========================================
-   BOTÃO DE ENTRAR
-   ========================================== */
+/* o botão de entrar ou criar conta */
 .botao-de-entrar {
+  /* largura total */
   width: 100%;
-  padding: 14px 24px;
-  margin-top: 8px;
+  /* altura do botão */
+  padding: 16px;
+  /* fundo gradiente roxo */
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  color: white;
+  /* cor do texto branco */
+  color: #ffffff;
+  /* sem borda */
   border: none;
-  border-radius: 10px;
+  /* cantos arredondados */
+  border-radius: 12px;
+  /* tamanho da fonte */
   font-size: 16px;
+  /* peso negrito */
   font-weight: 600;
+  /* cursor de mão */
   cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  /* sombra */
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  /* transição suave */
+  transition: all 0.3s ease;
+  /* margem em cima */
+  margin-top: 8px;
 }
 
+/* quando passa o mouse no botão */
 .botao-de-entrar:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
-  filter: brightness(1.05);
+  /* sobe um pouquinho */
+  transform: translateY(-2px);
+  /* sombra maior */
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
+/* quando clica no botão */
 .botao-de-entrar:active {
+  /* volta pra posição normal */
   transform: translateY(0);
 }
 
-/* ==========================================
-   DIVISOR "OU"
-   ========================================== */
+/* o divisor com o "ou" no meio */
+/* aquela linha bonitinha */
 .divisor {
-  position: relative;
+  /* flex pra centralizar */
   display: flex;
+  /* alinhado no centro vertical */
   align-items: center;
-  margin: 24px 0;
+  /* espaço entre os elementos */
+  gap: 16px;
+  /* margem em cima e embaixo */
+  margin: 8px 0;
 }
 
-.divisor::before {
+/* a linha antes e depois do "ou" */
+.divisor::before,
+.divisor::after {
+  /* conteúdo vazio */
   content: '';
-  position: absolute;
-  width: 100%;
+  /* flex 1 pra ocupar todo espaço disponível */
+  flex: 1;
+  /* altura da linha */
   height: 1px;
+  /* cor da linha */
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* o texto "ou" no meio */
 .texto-do-divisor {
-  position: relative;
-  margin: 0 auto;
-  padding: 0 16px;
-  background: #181822;
+  /* cor do texto */
   color: #6b7280;
+  /* tamanho da fonte */
   font-size: 14px;
-  font-weight: 500;
 }
 
-/* ==========================================
-   LINK PARA CRIAR CONTA
-   ========================================== */
+/* o texto de cadastro tipo "não tem conta?" */
 .texto-do-cadastro {
+  /* cor do texto */
   color: #9ca3af;
-  font-size: 15px;
+  /* tamanho da fonte */
+  font-size: 14px;
+  /* centralizado */
   text-align: center;
 }
 
+/* o link de criar conta ou entrar */
+/* fica dentro do texto de cadastro */
 .link-do-cadastro {
+  /* cor do link */
   color: #6366f1;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s ease;
+  /* cursor de mão */
   cursor: pointer;
+  /* sem sublinhado */
+  text-decoration: none;
+  /* peso negrito */
+  font-weight: 600;
+  /* transição suave */
+  transition: color 0.3s ease;
 }
 
+/* quando passa o mouse no link */
 .link-do-cadastro:hover {
+  /* cor mais clara */
   color: #818cf8;
-  text-decoration: underline;
-}
-
-/* ==========================================
-   RESPONSIVIDADE: para telas menores (celulares)
-   ========================================== */
-@media (max-width: 640px) {
-  .card-de-login {
-    padding: 32px 24px;
-    border-radius: 20px;
-  }
-
-  .titulo-principal {
-    font-size: 28px;
-  }
-
-  .logo {
-    width: 72px;
-    height: 72px;
-  }
 }

@@ -1,0 +1,264 @@
+/* CSS da página Home */
+/* este arquivo tem os estilos da página inicial */
+
+/* reseto as coisas do navegador */
+/* igual fiz no login */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* container principal da home */
+/* é onde fica todo o conteúdo da página */
+.home-container {
+  /* altura mínima ocupa a tela toda */
+  min-height: 100vh;
+  /* display flex pra centralizar */
+  display: flex;
+  /* centraliza na horizontal */
+  justify-content: center;
+  /* centraliza na vertical */
+  align-items: center;
+  /* espaçamento interno */
+  padding: 20px;
+  /* cor de fundo escura com gradiente */
+  background: linear-gradient(135deg, #0d0d14 0%, #15151f 50%, #0d0d14 100%);
+  /* fonte padrão do sistema */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* conteúdo principal da home */
+/* segura tudo que aparece na tela */
+.home-content {
+  /* largura total mas máximo 600px */
+  width: 100%;
+  max-width: 600px;
+  /* centraliza o texto */
+  text-align: center;
+  /* cor do texto */
+  color: #f3f4f6;
+}
+
+/* container do logo */
+/* só centraliza o logo em cima */
+.home-logo-container {
+  /* margem embaixo do logo */
+  margin-bottom: 40px;
+}
+
+/* a imagem do logo */
+/* defini o tamanho dele */
+.home-logo {
+  /* largura máxima */
+  width: 120px;
+  /* altura automática */
+  height: auto;
+  /* sombra pra destacar */
+  filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+}
+
+/* título de boas vindas */
+/* tipo "Bem-vindo, João!" */
+.home-welcome-title {
+  /* tamanho grande */
+  font-size: 3rem;
+  /* negrito */
+  font-weight: 700;
+  /* margem embaixo */
+  margin-bottom: 12px;
+  /* espaçamento entre letras */
+  letter-spacing: -0.5px;
+}
+
+/* subtítulo embaixo do título */
+/* tipo "Estamos felizes..." */
+.home-welcome-subtitle {
+  /* tamanho médio */
+  font-size: 1.25rem;
+  /* cor mais apagada */
+  color: #9ca3af;
+  /* margem embaixo */
+  margin-bottom: 48px;
+  /* peso normal */
+  font-weight: 400;
+}
+
+/* informações do usuário */
+/* mostra o nome e email dele */
+.home-user-info {
+  /* flex pra organizar o ícone e os textos */
+  display: flex;
+  /* centraliza tudo */
+  align-items: center;
+  justify-content: center;
+  /* espaço entre ícone e textos */
+  gap: 16px;
+  /* fundo escuro semi-transparente */
+  background: rgba(255, 255, 255, 0.05);
+  /* borda fininha */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* cantos arredondados */
+  border-radius: 16px;
+  /* espaçamento interno */
+  padding: 24px;
+  /* margem embaixo */
+  margin-bottom: 24px;
+}
+
+/* o ícone do usuário */
+/* aquele emoji de pessoa 👤 */
+.home-user-icon {
+  /* tamanho grande */
+  font-size: 48px;
+}
+
+/* os detalhes do usuário */
+/* nome e email */
+.home-user-details {
+  /* alinha o texto à esquerda */
+  text-align: left;
+}
+
+/* o nome do usuário */
+/* aparece em negrito */
+.home-user-name {
+  /* tamanho médio-grande */
+  font-size: 1.25rem;
+  /* negrito */
+  font-weight: 600;
+  /* cor clarinha */
+  color: #f3f4f6;
+  /* margem embaixo do nome */
+  margin-bottom: 4px;
+}
+
+/* o email do usuário */
+/* aparece mais apagado */
+.home-user-email {
+  /* tamanho normal */
+  font-size: 1rem;
+  /* cor mais apagada */
+  color: #9ca3af;
+}
+
+/* botão de logout */
+/* pra sair da conta */
+.home-logout-button {
+  /* largura máxima */
+  width: 100%;
+  max-width: 300px;
+  /* altura do botão */
+  padding: 14px 24px;
+  /* tamanho da fonte */
+  font-size: 1rem;
+  /* negrito */
+  font-weight: 600;
+  /* texto branco */
+  color: #fff;
+  /* fundo vermelho gradiente */
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  /* sem borda */
+  border: none;
+  /* cantos arredondados */
+  border-radius: 12px;
+  /* cursor de mão */
+  cursor: pointer;
+  /* margem embaixo */
+  margin-bottom: 48px;
+  /* transição suave */
+  transition: all 0.3s ease;
+  /* sombra vermelha */
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* quando passa o mouse no botão */
+.home-logout-button:hover {
+  /* sobe um pouquinho */
+  transform: translateY(-2px);
+  /* sombra maior */
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+/* quando clica no botão */
+.home-logout-button:active {
+  /* volta pra posição normal */
+  transform: translateY(0);
+}
+
+/* aviso de desenvolvimento */
+/* aquele quadro amarelo de aviso */
+.home-development-warning {
+  /* fundo escuro semi-transparente */
+  background: rgba(255, 255, 255, 0.05);
+  /* borda fininha */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* cantos arredondados */
+  border-radius: 16px;
+  /* espaçamento interno */
+  padding: 32px;
+  /* sombra */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* ícone do aviso */
+/* aquele emoji de atenção ⚠️ */
+.home-warning-icon {
+  /* tamanho grande */
+  font-size: 48px;
+  /* margem embaixo */
+  margin-bottom: 16px;
+}
+
+/* título do aviso */
+/* tipo "Plataforma em Desenvolvimento" */
+.home-warning-title {
+  /* tamanho grande */
+  font-size: 1.5rem;
+  /* peso semi-negrito */
+  font-weight: 600;
+  /* cor amarela */
+  color: #fbbf24;
+  /* margem embaixo */
+  margin-bottom: 16px;
+}
+
+/* texto do aviso */
+/* explica que tá em desenvolvimento */
+.home-warning-text {
+  /* tamanho normal */
+  font-size: 1rem;
+  /* altura da linha */
+  line-height: 1.7;
+  /* cor do texto */
+  color: #e5e7eb;
+}
+
+/* quando a tela é pequena (celular) */
+/* responsive */
+@media (max-width: 640px) {
+  /* título menor */
+  .home-welcome-title {
+    font-size: 2rem;
+  }
+
+  /* subtítulo menor */
+  .home-welcome-subtitle {
+    font-size: 1rem;
+  }
+
+  /* logo menor */
+  .home-logo {
+    width: 80px;
+  }
+
+  /* aviso com menos padding */
+  .home-development-warning {
+    padding: 24px;
+  }
+
+  /* título do aviso menor */
+  .home-warning-title {
+    font-size: 1.25rem;
+  }
+}
