@@ -41,11 +41,13 @@ function Login(props) {
   const [mostrarSenhaCadastro, setarMostrarSenhaCadastro] = useState(false);
   const [mostrarConfirmarSenha, setarMostrarConfirmarSenha] = useState(false);
   const [mensagemErro, setarMensagemErro] = useState('');
+  const [mensagemSucesso, setarMensagemSucesso] = useState('');
   const [pagina, setarPagina] = useState('login');
 
   function botaoEntrar(evento) {
     evento.preventDefault();
     setarMensagemErro('');
+    setarMensagemSucesso('');
     if (campoEmail === '') { setarMensagemErro('Por favor, digite seu e-mail!'); return; }
     if (!checarEmail(campoEmail)) { setarMensagemErro('Por favor, digite um e-mail válido!'); return; }
     if (campoSenha === '') { setarMensagemErro('Por favor, digite sua senha!'); return; }
@@ -60,6 +62,7 @@ function Login(props) {
   function botaoCadastrar(evento) {
     evento.preventDefault();
     setarMensagemErro('');
+    setarMensagemSucesso('');
     if (campoNome === '') { setarMensagemErro('Por favor, digite seu nome!'); return; }
     if (campoEmailCadastro === '') { setarMensagemErro('Por favor, digite seu e-mail!'); return; }
     if (!checarEmail(campoEmailCadastro)) { setarMensagemErro('Por favor, digite um e-mail válido!'); return; }
@@ -77,16 +80,16 @@ function Login(props) {
       setarEmailCadastro('');
       setarSenhaCadastro('');
       setarConfirmarSenha('');
-      setarMensagemErro('Conta criada com sucesso! Agora faça login.');
-      setTimeout(() => { setarPagina('login'); }, 2000);
+      setarMensagemSucesso('Conta criada com sucesso! Agora faça login.');
+      setTimeout(() => { setarPagina('login'); setarMensagemSucesso(''); }, 2000);
     }
   }
 
   function toggleSenha() { setarMostrarSenha(!mostrarSenha); }
   function toggleSenhaCadastro() { setarMostrarSenhaCadastro(!mostrarSenhaCadastro); }
   function toggleConfirmarSenha() { setarMostrarConfirmarSenha(!mostrarConfirmarSenha); }
-  function irPraCadastro() { setarPagina('cadastro'); setarMensagemErro(''); }
-  function irPraLogin() { setarPagina('login'); setarMensagemErro(''); }
+  function irPraCadastro() { setarPagina('cadastro'); setarMensagemErro(''); setarMensagemSucesso(''); }
+  function irPraLogin() { setarPagina('login'); setarMensagemErro(''); setarMensagemSucesso(''); }
 
   if (pagina === 'login') {
     return (
@@ -130,6 +133,7 @@ function Login(props) {
               </div>
             </div>
             {mensagemErro && <div className="mensagem-de-erro">{mensagemErro}</div>}
+            {mensagemSucesso && <div className="mensagem-de-sucesso">{mensagemSucesso}</div>}
             <button type="button" className="botao-de-entrar" onClick={botaoEntrar}>Entrar</button>
             <div className="divisor">
               <span className="texto-do-divisor">ou</span>
@@ -214,6 +218,7 @@ function Login(props) {
               </div>
             </div>
             {mensagemErro && <div className="mensagem-de-erro">{mensagemErro}</div>}
+            {mensagemSucesso && <div className="mensagem-de-sucesso">{mensagemSucesso}</div>}
             <button type="button" className="botao-de-entrar" onClick={botaoCadastrar}>Criar conta</button>
             <div className="divisor">
               <span className="texto-do-divisor">ou</span>
