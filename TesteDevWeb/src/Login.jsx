@@ -12,6 +12,9 @@ import "./Login.css";
 // o login e o cadastro usam funções locais que salvam e leem dados do localStorage
 import { login, cadastrar } from "./AuthContext.jsx";
 
+// importo o helper pra montar caminhos corretos de assets públicos no deploy
+import { pegarAssetPublico } from "./utils/publicAsset.js";
+
 // função pra validar se o email parece válido
 // a validação aqui é simples e só confere se existe "@" e "." depois dele
 function checarEmail(email) {
@@ -69,6 +72,14 @@ function checarSenha(senha) {
 function Login(props) {
   // pego a função enviada por props
   const trocarPagina = props.trocarPagina;
+
+  // monto os caminhos dos assets públicos
+  // assim as imagens continuam funcionando em produção no GitHub Pages
+  const logoDaAplicacao = pegarAssetPublico("LogoTeste.png");
+  const iconeEmail = pegarAssetPublico("IconeEmail.png");
+  const iconeSenha = pegarAssetPublico("IconeSenha.png");
+  const iconeOcultar = pegarAssetPublico("IconeOcultar.png");
+  const iconeUsuario = pegarAssetPublico("UsuarioIcone.png");
 
   // estados do formulário de login
   // guardam os valores digitados no acesso à conta
@@ -262,7 +273,7 @@ function Login(props) {
         <div className="card-de-login">
           {/* área do logo exibida no topo do card */}
           <div className="container-do-logo">
-            <img src="/LogoTeste.png" alt="Logo" className="logo" />
+            <img src={logoDaAplicacao} alt="Logo" className="logo" />
           </div>
 
           {/* título e subtítulo que orientam o usuário sobre a ação atual */}
@@ -279,7 +290,7 @@ function Login(props) {
               </label>
               <div className="wrapper-do-input">
                 <img
-                  src="/IconeEmail.png"
+                  src={iconeEmail}
                   alt="Email"
                   className="icone-do-input-email"
                 />
@@ -301,11 +312,7 @@ function Login(props) {
                 Senha
               </label>
               <div className="wrapper-do-input">
-                <img
-                  src="/IconeSenha.png"
-                  alt="Senha"
-                  className="icone-do-input"
-                />
+                <img src={iconeSenha} alt="Senha" className="icone-do-input" />
                 <input
                   type={mostrarSenha ? "text" : "password"}
                   id="campo-senha"
@@ -322,7 +329,7 @@ function Login(props) {
                   onClick={toggleSenha}
                 >
                   <img
-                    src="/IconeOcultar.png"
+                    src={iconeOcultar}
                     alt="Mostrar senha"
                     className="icone-botao-senha"
                   />
@@ -372,7 +379,7 @@ function Login(props) {
         <div className="card-de-login">
           {/* logo no topo do card */}
           <div className="container-do-logo">
-            <img src="/LogoTeste.png" alt="Logo" className="logo" />
+            <img src={logoDaAplicacao} alt="Logo" className="logo" />
           </div>
 
           {/* título e subtítulo específicos da criação de conta */}
@@ -389,7 +396,7 @@ function Login(props) {
               </label>
               <div className="wrapper-do-input">
                 <img
-                  src="/UsuarioIcone.png"
+                  src={iconeUsuario}
                   alt="Usuário"
                   className="icone-do-input"
                 />
@@ -412,7 +419,7 @@ function Login(props) {
               </label>
               <div className="wrapper-do-input">
                 <img
-                  src="/IconeEmail.png"
+                  src={iconeEmail}
                   alt="Email"
                   className="icone-do-input-email"
                 />
@@ -434,11 +441,7 @@ function Login(props) {
                 Senha
               </label>
               <div className="wrapper-do-input">
-                <img
-                  src="/IconeSenha.png"
-                  alt="Senha"
-                  className="icone-do-input"
-                />
+                <img src={iconeSenha} alt="Senha" className="icone-do-input" />
                 <input
                   type={mostrarSenhaCadastro ? "text" : "password"}
                   id="campo-senha-cadastro"
@@ -455,7 +458,7 @@ function Login(props) {
                   onClick={toggleSenhaCadastro}
                 >
                   <img
-                    src="/IconeOcultar.png"
+                    src={iconeOcultar}
                     alt="Mostrar senha"
                     className="icone-botao-senha"
                   />
@@ -473,7 +476,7 @@ function Login(props) {
               </label>
               <div className="wrapper-do-input">
                 <img
-                  src="/IconeSenha.png"
+                  src={iconeSenha}
                   alt="Confirmar"
                   className="icone-do-input"
                 />
@@ -493,7 +496,7 @@ function Login(props) {
                   onClick={toggleConfirmarSenha}
                 >
                   <img
-                    src="/IconeOcultar.png"
+                    src={iconeOcultar}
                     alt="Mostrar senha"
                     className="icone-botao-senha"
                   />

@@ -8,7 +8,7 @@
 import { verificarEstaLogado } from "./AuthContext.jsx";
 
 // importo o css
-import "./Home.css";
+import "./home.css";
 
 // componente de proteção
 function ProtegerRota(props) {
@@ -24,7 +24,9 @@ function ProtegerRota(props) {
       <div className="tela-carregamento">
         <h1>Você precisa estar logado!</h1>
         <p>Redirecionando...</p>
-        <button onClick={() => (window.location.href = "/login")}>
+        <button
+          onClick={() => (window.location.href = import.meta.env.BASE_URL)}
+        >
           Ir pra Login
         </button>
       </div>

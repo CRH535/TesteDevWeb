@@ -5,10 +5,13 @@
 import { useEffect, useRef, useState } from "react";
 
 // importo o css da home
-import "./Home.css";
+import "./home.css";
 
 // importo as funções de auth
 import { logout, pegarUsuarioLogado } from "./AuthContext.jsx";
+
+// importo o helper pra montar caminhos corretos de assets públicos no deploy
+import { pegarAssetPublico } from "./utils/publicAsset.js";
 
 // lista com as etapas progressivas da jornada da home
 const etapasDaHome = [
@@ -137,6 +140,10 @@ function IconeCarrinho(props) {
 function Home(props) {
   // pegamos a função trocarPagina das propriedades
   var trocarPagina = props.trocarPagina;
+
+  // monto o caminho do logo público
+  // isso evita quebrar o carregamento da imagem em subpastas do GitHub Pages
+  var logoDaAplicacao = pegarAssetPublico("LogoTeste.png");
 
   // pego os dados do usuário logado
   var usuario = pegarUsuarioLogado();
@@ -359,7 +366,7 @@ function Home(props) {
         {/* cabeçalho superior da home */}
         <header className="home-topbar">
           <div className="home-brand">
-            <img src="/LogoTeste.png" alt="Logo" className="home-logo" />
+            <img src={logoDaAplicacao} alt="Logo" className="home-logo" />
             <div>
               <p className="home-brand-tag">Teste Dev Web Store</p>
               <h1 className="home-brand-title">Pagina inicial do e-commerce</h1>
