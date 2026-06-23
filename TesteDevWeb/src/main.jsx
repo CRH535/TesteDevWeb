@@ -51,10 +51,14 @@ export function App() {
 }
 
 // aqui eu inicializo o app
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+var elementoRoot = document.getElementById("root");
+
+if (elementoRoot) {
+  createRoot(elementoRoot).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
 
 // não precisamos mais exportar a função trocarPagina, porque vamos passá-la como propriedade (props)
