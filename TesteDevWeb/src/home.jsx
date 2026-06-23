@@ -1,8 +1,8 @@
 // arquivo home.jsx
 // esta é a página inicial do e-commerce que só aparece pra quem tá logado
 
-// importo o useState pra controlar as etapas da home e as interações locais
-import { useState } from "react";
+// importo os hooks do react pra controlar estados, refs e limpeza dos timers
+import { useEffect, useRef, useState } from "react";
 
 // importo o css da home
 import "./Home.css";
@@ -103,6 +103,35 @@ const beneficiosDaLoja = [
   "Area de usuario integrada ao fluxo de autenticacao existente.",
 ];
 
+// duração da animação do carrinho em milissegundos
+const DURACAO_ANIMACAO_CARRINHO = 800;
+
+// tempo mínimo entre uma animação e outra
+const COOLDOWN_ANIMACAO_CARRINHO = 1000;
+
+// ícone de carrinho em svg
+// uso esse desenho inline pra manter compatibilidade e poder herdar as cores do tema
+function IconeCarrinho(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className={props.className}
+    >
+      <path
+        d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H7"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="10" cy="19" r="1.6" fill="currentColor" />
+      <circle cx="17" cy="19" r="1.6" fill="currentColor" />
+    </svg>
+  );
+}
+
 // componente da página home
 // agora ele recebe a função trocarPagina como propriedade
 function Home(props) {
@@ -123,6 +152,34 @@ function Home(props) {
 
   // guardo o último produto marcado pra dar feedback ao usuário
   var [ultimoProduto, setarUltimoProduto] = useState("");
+
+  // esse estado guarda os dados temporários da animação do carrinho
+  var [animacaoCarrinho, setarAnimacaoCarrinho] = useState(null);
+
+  // ref do carrinho fixo no canto superior direito
+  var referenciaCarrinho = useRef(null);
+
+  // ref do timeout usado pra esconder o indicador quando a animação termina
+  var timeoutAnimacaoCarrinho = useRef(null);
+
+  // ref do cooldown pra impedir vários disparos seguidos da animação
+  var cooldownAnimacaoCarrinho = useRef(false);
+
+  // ref do timeout que libera a próxima animação
+  var timeoutCooldownCarrinho = useRef(null);
+
+  // quando o componente desmontar, limpo o timeout pendente
+  useEffect(function () {
+    return function () {
+      if (timeoutAnimacaoCarrinho.current) {
+        clearTimeout(timeoutAnimacaoCarrinho.current);
+      }
+
+      if (timeoutCooldownCarrinho.current) {
+        clearTimeout(timeoutCooldownCarrinho.current);
+      }
+    };
+  }, []);
 
   // função pra quando clicar em sair
   function botaoSair() {
@@ -154,10 +211,88 @@ function Home(props) {
     }
   }
 
+  // essa função calcula a origem do clique e dispara a animação até o carrinho fixo
+  function dispararAnimacaoCarrinho(evento) {
+    // se a animação ainda estiver no cooldown, não disparo outra
+    if (cooldownAnimacaoCarrinho.current) {
+      return;
+    }
+
+    if (!referenciaCarrinho.current || !evento.currentTarget) {
+      return;
+    }
+
+    // pego a posição do botão clicado pra usar como fallback em mobile e teclado
+    var botaoRect = evento.currentTarget.getBoundingClientRect();
+
+    // pego a posição final do carrinho fixo
+    var carrinhoRect = referenciaCarrinho.current.getBoundingClientRect();
+
+    // tento usar o ponto exato do clique
+    // se não existir coordenada, uso o centro do botão pressionado
+    var pontoInicialX =
+      typeof evento.clientX === "number" && evento.clientX > 0
+        ? evento.clientX
+        : botaoRect.left + botaoRect.width / 2;
+    var pontoInicialY =
+      typeof evento.clientY === "number" && evento.clientY > 0
+        ? evento.clientY
+        : botaoRect.top + botaoRect.height / 2;
+
+    // calculo o centro visual do carrinho de destino
+    var pontoFinalX = carrinhoRect.left + carrinhoRect.width / 2;
+    var pontoFinalY = carrinhoRect.top + carrinhoRect.height / 2;
+
+    // posiciono o ícone animado já centralizado na origem
+    var origemX = pontoInicialX - 16;
+    var origemY = pontoInicialY - 16;
+
+    // calculo o quanto ele precisa se mover até chegar no destino
+    var deslocamentoX = pontoFinalX - pontoInicialX;
+    var deslocamentoY = pontoFinalY - pontoInicialY;
+
+    // calculo um ponto intermediário pra dar a sensação de flutuação
+    var pontoIntermediarioX = deslocamentoX * 0.45;
+    var pontoIntermediarioY = deslocamentoY * 0.45 - 36;
+
+    cooldownAnimacaoCarrinho.current = true;
+
+    if (timeoutAnimacaoCarrinho.current) {
+      clearTimeout(timeoutAnimacaoCarrinho.current);
+    }
+
+    if (timeoutCooldownCarrinho.current) {
+      clearTimeout(timeoutCooldownCarrinho.current);
+    }
+
+    setarAnimacaoCarrinho({
+      origemX: origemX,
+      origemY: origemY,
+      deslocamentoX: deslocamentoX,
+      deslocamentoY: deslocamentoY,
+      pontoIntermediarioX: pontoIntermediarioX,
+      pontoIntermediarioY: pontoIntermediarioY,
+    });
+
+    timeoutAnimacaoCarrinho.current = setTimeout(function () {
+      setarAnimacaoCarrinho(null);
+    }, DURACAO_ANIMACAO_CARRINHO);
+
+    timeoutCooldownCarrinho.current = setTimeout(function () {
+      cooldownAnimacaoCarrinho.current = false;
+    }, COOLDOWN_ANIMACAO_CARRINHO);
+  }
+
   // função que simula salvar interesse em um produto
-  function adicionarInteresse(nomeDoProduto) {
-    setarInteressesSalvos(interessesSalvos + 1);
+  function adicionarInteresse(nomeDoProduto, evento) {
+    setarInteressesSalvos(function (valorAtual) {
+      return valorAtual + 1;
+    });
     setarUltimoProduto(nomeDoProduto);
+
+    // disparo a animação visual que leva o ícone até o carrinho
+    dispararAnimacaoCarrinho(evento);
+
     if (etapaAtual < 4) {
       setarEtapaAtual(4);
     }
@@ -187,6 +322,39 @@ function Home(props) {
   // aqui mostro a página inicial do e-commerce
   return (
     <div className="home-container">
+      {/* carrinho fixo no canto superior direito */}
+      <div
+        ref={referenciaCarrinho}
+        className="home-floating-cart"
+        data-testid="home-cart-anchor"
+      >
+        <div className="home-floating-cart-icon-wrapper">
+          <IconeCarrinho className="home-floating-cart-icon" />
+        </div>
+        <div className="home-floating-cart-text">
+          <span>Carrinho</span>
+          <strong>{interessesSalvos}</strong>
+        </div>
+      </div>
+
+      {/* indicador animado que voa do clique até o carrinho */}
+      {animacaoCarrinho && (
+        <div
+          className="home-flying-cart"
+          data-testid="home-flying-cart"
+          style={{
+            left: animacaoCarrinho.origemX + "px",
+            top: animacaoCarrinho.origemY + "px",
+            "--cart-mid-x": animacaoCarrinho.pontoIntermediarioX + "px",
+            "--cart-mid-y": animacaoCarrinho.pontoIntermediarioY + "px",
+            "--cart-delta-x": animacaoCarrinho.deslocamentoX + "px",
+            "--cart-delta-y": animacaoCarrinho.deslocamentoY + "px",
+          }}
+        >
+          <IconeCarrinho className="home-flying-cart-icon" />
+        </div>
+      )}
+
       <div className="home-shell">
         {/* cabeçalho superior da home */}
         <header className="home-topbar">
@@ -346,7 +514,9 @@ function Home(props) {
                   </strong>
                   <button
                     className="home-primary-button"
-                    onClick={() => adicionarInteresse(produto.nome)}
+                    onClick={(evento) =>
+                      adicionarInteresse(produto.nome, evento)
+                    }
                   >
                     Tenho interesse
                   </button>
