@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("anima o carrinho visualmente e respeita o cooldown", async ({ page }) => {
+test("anima o carrinho visualmente em todo clique sem bloquear a interface", async ({ page }) => {
   const errosDeConsole = [];
 
   page.on("console", (mensagem) => {
@@ -42,12 +42,12 @@ test("anima o carrinho visualmente e respeita o cooldown", async ({ page }) => {
 
   await page.getByRole("button", { name: "Tenho interesse" }).click();
 
-  await expect(page.getByTestId("home-flying-cart")).toHaveCount(1);
+  await expect(page.getByTestId("home-flying-cart").first()).toBeVisible();
+  await expect(carrinho).toContainText("2");
 
-  await page.waitForTimeout(850);
+  await page.waitForTimeout(500);
   await expect(page.getByTestId("home-flying-cart")).toHaveCount(0);
 
-  await page.waitForTimeout(250);
   await page.getByRole("button", { name: "Tenho interesse" }).click();
 
   await expect(page.getByTestId("home-flying-cart")).toHaveCount(1);

@@ -107,10 +107,8 @@ const beneficiosDaLoja = [
 ];
 
 // duração da animação do carrinho em milissegundos
-const DURACAO_ANIMACAO_CARRINHO = 800;
-
-// tempo mínimo entre uma animação e outra
-const COOLDOWN_ANIMACAO_CARRINHO = 1000;
+// deixei em 420ms porque fica rápida, fluida e sem atrapalhar o clique seguinte
+const DURACAO_ANIMACAO_CARRINHO = 420;
 
 // ícone de carrinho em svg
 // uso esse desenho inline pra manter compatibilidade e poder herdar as cores do tema
@@ -160,31 +158,27 @@ function Home(props) {
   // guardo o último produto marcado pra dar feedback ao usuário
   var [ultimoProduto, setarUltimoProduto] = useState("");
 
-  // esse estado guarda os dados temporários da animação do carrinho
-  var [animacaoCarrinho, setarAnimacaoCarrinho] = useState(null);
+  // esse estado guarda todas as animações ativas do carrinho
+  // uso uma lista para permitir uma animação nova a cada clique, mesmo em sequência
+  var [animacoesCarrinho, setarAnimacoesCarrinho] = useState([]);
 
   // ref do carrinho fixo no canto superior direito
   var referenciaCarrinho = useRef(null);
 
-  // ref do timeout usado pra esconder o indicador quando a animação termina
-  var timeoutAnimacaoCarrinho = useRef(null);
+  // guardo os timeouts de remoção para limpar tudo quando o componente sair da tela
+  var timeoutsAnimacaoCarrinho = useRef([]);
 
-  // ref do cooldown pra impedir vários disparos seguidos da animação
-  var cooldownAnimacaoCarrinho = useRef(false);
-
-  // ref do timeout que libera a próxima animação
-  var timeoutCooldownCarrinho = useRef(null);
+  // contador simples para dar um identificador diferente a cada animação criada
+  var proximoIdAnimacaoCarrinho = useRef(0);
 
   // quando o componente desmontar, limpo o timeout pendente
   useEffect(function () {
     return function () {
-      if (timeoutAnimacaoCarrinho.current) {
-        clearTimeout(timeoutAnimacaoCarrinho.current);
-      }
+      timeoutsAnimacaoCarrinho.current.forEach(function (timeoutAtual) {
+        clearTimeout(timeoutAtual);
+      });
 
-      if (timeoutCooldownCarrinho.current) {
-        clearTimeout(timeoutCooldownCarrinho.current);
-      }
+      timeoutsAnimacaoCarrinho.current = [];
     };
   }, []);
 
@@ -220,11 +214,6 @@ function Home(props) {
 
   // essa função calcula a origem do clique e dispara a animação até o carrinho fixo
   function dispararAnimacaoCarrinho(evento) {
-    // se a animação ainda estiver no cooldown, não disparo outra
-    if (cooldownAnimacaoCarrinho.current) {
-      return;
-    }
-
     if (!referenciaCarrinho.current || !evento.currentTarget) {
       return;
     }
@@ -262,32 +251,39 @@ function Home(props) {
     var pontoIntermediarioX = deslocamentoX * 0.45;
     var pontoIntermediarioY = deslocamentoY * 0.45 - 36;
 
-    cooldownAnimacaoCarrinho.current = true;
+    // cada clique recebe um id próprio para a remoção acontecer no item certo
+    var idDaAnimacao = proximoIdAnimacaoCarrinho.current;
+    proximoIdAnimacaoCarrinho.current = proximoIdAnimacaoCarrinho.current + 1;
 
-    if (timeoutAnimacaoCarrinho.current) {
-      clearTimeout(timeoutAnimacaoCarrinho.current);
-    }
-
-    if (timeoutCooldownCarrinho.current) {
-      clearTimeout(timeoutCooldownCarrinho.current);
-    }
-
-    setarAnimacaoCarrinho({
+    var novaAnimacao = {
+      id: idDaAnimacao,
       origemX: origemX,
       origemY: origemY,
       deslocamentoX: deslocamentoX,
       deslocamentoY: deslocamentoY,
       pontoIntermediarioX: pontoIntermediarioX,
       pontoIntermediarioY: pontoIntermediarioY,
+    };
+
+    // adiciono a animação nova à lista atual para que cada clique seja exibido
+    setarAnimacoesCarrinho(function (animacoesAtuais) {
+      return animacoesAtuais.concat(novaAnimacao);
     });
 
-    timeoutAnimacaoCarrinho.current = setTimeout(function () {
-      setarAnimacaoCarrinho(null);
+    var timeoutRemocao = setTimeout(function () {
+      setarAnimacoesCarrinho(function (animacoesAtuais) {
+        return animacoesAtuais.filter(function (animacaoAtual) {
+          return animacaoAtual.id !== idDaAnimacao;
+        });
+      });
+
+      timeoutsAnimacaoCarrinho.current =
+        timeoutsAnimacaoCarrinho.current.filter(function (timeoutAtual) {
+          return timeoutAtual !== timeoutRemocao;
+        });
     }, DURACAO_ANIMACAO_CARRINHO);
 
-    timeoutCooldownCarrinho.current = setTimeout(function () {
-      cooldownAnimacaoCarrinho.current = false;
-    }, COOLDOWN_ANIMACAO_CARRINHO);
+    timeoutsAnimacaoCarrinho.current.push(timeoutRemocao);
   }
 
   // função que simula salvar interesse em um produto
@@ -344,23 +340,26 @@ function Home(props) {
         </div>
       </div>
 
-      {/* indicador animado que voa do clique até o carrinho */}
-      {animacaoCarrinho && (
-        <div
-          className="home-flying-cart"
-          data-testid="home-flying-cart"
-          style={{
-            left: animacaoCarrinho.origemX + "px",
-            top: animacaoCarrinho.origemY + "px",
-            "--cart-mid-x": animacaoCarrinho.pontoIntermediarioX + "px",
-            "--cart-mid-y": animacaoCarrinho.pontoIntermediarioY + "px",
-            "--cart-delta-x": animacaoCarrinho.deslocamentoX + "px",
-            "--cart-delta-y": animacaoCarrinho.deslocamentoY + "px",
-          }}
-        >
-          <IconeCarrinho className="home-flying-cart-icon" />
-        </div>
-      )}
+      {/* indicadores animados que voam do clique até o carrinho */}
+      {animacoesCarrinho.map(function (animacaoCarrinho) {
+        return (
+          <div
+            key={animacaoCarrinho.id}
+            className="home-flying-cart"
+            data-testid="home-flying-cart"
+            style={{
+              left: animacaoCarrinho.origemX + "px",
+              top: animacaoCarrinho.origemY + "px",
+              "--cart-mid-x": animacaoCarrinho.pontoIntermediarioX + "px",
+              "--cart-mid-y": animacaoCarrinho.pontoIntermediarioY + "px",
+              "--cart-delta-x": animacaoCarrinho.deslocamentoX + "px",
+              "--cart-delta-y": animacaoCarrinho.deslocamentoY + "px",
+            }}
+          >
+            <IconeCarrinho className="home-flying-cart-icon" />
+          </div>
+        );
+      })}
 
       <div className="home-shell">
         {/* cabeçalho superior da home */}
