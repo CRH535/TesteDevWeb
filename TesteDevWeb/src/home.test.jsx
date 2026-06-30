@@ -57,7 +57,7 @@ describe("Home", () => {
     expect(trocarPagina).toHaveBeenCalledWith("login");
   });
 
-  it("anima o carrinho a partir do clique e respeita o cooldown de 1 segundo", () => {
+  it("anima o carrinho a cada clique sem bloquear novos interesses", () => {
     vi.useFakeTimers();
 
     localStorage.setItem(
@@ -107,24 +107,18 @@ describe("Home", () => {
 
     fireEvent.click(botaoInteresse, { clientX: 262, clientY: 542 });
 
-    expect(screen.getAllByTestId("home-flying-cart")).toHaveLength(1);
+    expect(screen.getAllByTestId("home-flying-cart")).toHaveLength(2);
+    expect(ancoraCarrinho).toHaveTextContent("2");
 
     act(() => {
-      vi.advanceTimersByTime(800);
+      vi.advanceTimersByTime(420);
     });
 
     expect(screen.queryByTestId("home-flying-cart")).not.toBeInTheDocument();
 
     fireEvent.click(botaoInteresse, { clientX: 264, clientY: 544 });
 
-    expect(screen.queryByTestId("home-flying-cart")).not.toBeInTheDocument();
-
-    act(() => {
-      vi.advanceTimersByTime(200);
-    });
-
-    fireEvent.click(botaoInteresse, { clientX: 266, clientY: 546 });
-
     expect(screen.getByTestId("home-flying-cart")).toBeInTheDocument();
+    expect(ancoraCarrinho).toHaveTextContent("3");
   });
 });
