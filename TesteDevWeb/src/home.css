@@ -789,9 +789,10 @@
 }
 
 /* redução de movimento */
-/* se o usuário preferir menos animação, encurto o deslocamento visual sem quebrar a interação */
+/* se o usuário preferir menos animação, mantenho um feedback curto e perceptível */
 @media (prefers-reduced-motion: reduce) {
   .home-flying-cart {
-    animation-duration: 1ms;
+    animation-duration: 180ms;
+    animation-timing-function: ease-out;
   }
 }

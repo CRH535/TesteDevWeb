@@ -55,3 +55,35 @@ test("anima o carrinho visualmente em todo clique sem bloquear a interface", asy
 
   expect(errosDeConsole).toEqual([]);
 });
+
+test.describe("quando o navegador prefere menos movimento", () => {
+  test.use({ reducedMotion: "reduce" });
+
+  test("mantem um feedback visual curto, mas ainda perceptivel", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("heading", {
+        name: /Bem-vindo, Chris! Sua jornada de compra comeca aqui\./,
+      }),
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: /Moda/ }).click();
+    await page.getByRole("button", { name: "Tenho interesse" }).click();
+
+    const dadosDaAnimacao = await page
+      .getByTestId("home-flying-cart")
+      .first()
+      .evaluate((elemento) => {
+        const estilos = getComputedStyle(elemento);
+
+        return {
+          nome: estilos.animationName,
+          duracao: estilos.animationDuration,
+        };
+      });
+
+    expect(dadosDaAnimacao.nome).toBe("home-fly-to-cart");
+    expect(Number.parseFloat(dadosDaAnimacao.duracao)).toBeGreaterThan(0.05);
+  });
+});
